@@ -1,60 +1,51 @@
 import { Box, Button, Card, CardActions, CardContent, CardMedia, Typography } from '@mui/material'
 import React from 'react'
 import './Course.css'
-export default function Course() {
+export default function Course(props) {
+  console.log(props.course);
+  const { name, description, image_url, price } = props.course;
   return (
     <div>
       <Box
         className='course-container'
-        
+
       >
         <Box className='margin'>
           <Card sx={{ maxWidth: 'auto' }} variant='outlined'>
             <CardMedia
               sx={{ height: 140 }}
-              image="/static/images/cards/contemplative-reptile.jpg"
+              image={image_url}
               title="green iguana"
             />
             <CardContent>
-              <Typography gutterBottom variant="h5" component="div">
-                Lizard
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Lizards are a widespread group of squamate reptiles, with over 6,000
-                species, ranging across all continents except Antarctica
-              </Typography>
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                }}
+              >
+                <Box>
+                  <Typography gutterBottom variant="h5" component="div">
+                    {name}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary" gutterBottom>
+                    {description}
+                  </Typography>
+                </Box>
+                <Box>
+                  <Typography gutterBottom variant="h5" component="div">
+                    <span style={{color : 'red', fontSize:'xx-large'} }>Only {price} Taka</span>
+                  </Typography>
+                </Box>
+
+              </Box>
+
             </CardContent>
             <CardActions>
-              <Button size="small">Share</Button>
-              <Button size="small">Learn More</Button>
+              <Button size="large" variant='contained'>Add to cart</Button>
             </CardActions>
           </Card>
         </Box>
-        <Box className='margin' >
-          <Card sx={{ maxWidth: 'auto' }} variant='outlined'>
-            <CardMedia
-              sx={{ height: 140 }}
-              image="/static/images/cards/contemplative-reptile.jpg"
-              title="green iguana"
-            />
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="div">
-                Lizard
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Lizards are a widespread group of squamate reptiles, with over 6,000
-                species, ranging across all continents except Antarctica
-              </Typography>
-            </CardContent>
-            <CardActions>
-              <Button size="small">Share</Button>
-              <Button size="small">Learn More</Button>
-            </CardActions>
-          </Card>
-        </Box>
-
-
-
       </Box>
     </div>
   )
