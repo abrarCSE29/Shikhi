@@ -1,4 +1,14 @@
 .cart-container{
     background: rgb(204, 207, 7);
-    margin-right: 10px;
+    margin-top : 4.5%
+}
+
+.hover{
+    /* padding: 10%; */
+    :hover{
+        background: rgb(223, 223, 223) !important;
+        /* padding: 5%; */
+        transition: 200ms ease-in-out;
+    }
+
 }
