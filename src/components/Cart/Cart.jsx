@@ -1,4 +1,4 @@
-import { Box } from '@mui/material'
+import { Box, List, ListItem, ListItemText, Paper, Typography } from '@mui/material'
 import React from 'react'
 import './Cart.css'
 export default function Cart() {
@@ -6,8 +6,34 @@ export default function Cart() {
     <Box
       className='cart-container'
     >
-      <h1>Cart</h1>
-      <p>This is the cart page</p>
+      <Paper elevation={5}>
+        <Box
+          sx={{
+            margin: '2%'
+          }}
+        >
+          <Typography
+            variant="h5"
+            color="initial"
+            textAlign={'center'}
+            fontWeight={600}
+          >
+            My Cart
+          </Typography>
+          <Typography>
+            Items
+          </Typography>
+          <List>
+            <ListItem >
+              <ListItemText className='hover'>Course 1</ListItemText>
+            </ListItem>
+            <ListItem>
+              <ListItemText>Course 2</ListItemText>
+            </ListItem>
+          </List>
+        </Box>
+
+      </Paper>
     </Box>
   )
 }
