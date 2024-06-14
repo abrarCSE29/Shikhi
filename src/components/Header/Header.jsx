@@ -11,6 +11,7 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
+import { Link } from 'react-router-dom';
 
 
 const pages = ['Courses', 'My Cart', 'Contact'];
@@ -44,7 +45,7 @@ function Header() {
             variant="h6"
             noWrap
             component="a"
-            href="#app-bar-with-responsive-menu"
+            href="/"
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
@@ -89,7 +90,10 @@ function Header() {
             >
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+                  <Typography 
+                  textAlign="center"
+                  // href="https://github.com/"
+                  >{page}</Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -99,7 +103,7 @@ function Header() {
             variant="h5"
             noWrap
             component="a"
-            href="#app-bar-with-responsive-menu"
+            href="shop"
             sx={{
               mr: 2,
               display: { xs: 'flex', md: 'none' },
@@ -111,7 +115,7 @@ function Header() {
               textDecoration: 'none',
             }}
           >
-            Shikhi
+            
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
@@ -119,6 +123,7 @@ function Header() {
                 key={page}
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}
+                href={page}
               >
                 {page}
               </Button>
