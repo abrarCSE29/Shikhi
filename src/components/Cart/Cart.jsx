@@ -9,7 +9,7 @@ export default function Cart(props) {
     <Box
       className='cart-container'
     >
-      <Paper elevation={5}>
+      <Paper elevation={8} className='padding'>
         <Box
           sx={{
             margin: '2%'
@@ -23,9 +23,6 @@ export default function Cart(props) {
           >
             My Cart
           </Typography>
-          {/* <Typography>
-            Items
-          </Typography> */}
 
           {
             cartCourses.length === 0 ?
@@ -34,14 +31,60 @@ export default function Cart(props) {
               </Typography> :
 
               cartCourses.map((course, index) =>
-                <List key={index}>
-                  <ListItem >
-                    <ListItemText className='hover'>{course.name}</ListItemText>
-                  </ListItem>
-                </List>
-              )
+                <Box >
+                  <List key={index} >
+                    <Box
+                      display={'flex'}
+                      justifyContent={'space-between'}
+                    >
+                      <Box>
+                        <ListItem >
+                          <ListItemText className='bold'>{course.name}</ListItemText>
+                        </ListItem>
+                      </Box>
+                      <Box>
+                        <ListItem >
+                          <ListItemText className='bold'>{course.price}</ListItemText>
+                        </ListItem>
+                      </Box>
+                    </Box>
 
+                    {
+                      cartCourses.length === 0 ?
+                        <></> :
+                        <hr></hr>
+                    }
+                  </List>
+                </Box>
+              )
           }
+          {
+            cartCourses.length === 0 ?
+              <></> :
+              <Box
+                display={'flex'}
+                justifyContent={'space-between'}
+                margin={'2%'}
+              >
+                <Box>
+                  <Typography
+                  >
+                    Total
+                  </Typography>
+                </Box>
+                <Box>
+                  <Typography
+                    variant="h5"
+                    color="initial"
+                    textAlign={'center'}
+                    fontWeight={600}
+                  >
+                    {props.total}
+                  </Typography>
+                </Box>
+              </Box>
+          }
+
 
         </Box>
 

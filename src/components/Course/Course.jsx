@@ -11,7 +11,7 @@ export default function Course(props) {
 
       >
         <Box className='margin'>
-          <Card sx={{ maxWidth: 'auto' }} variant='outlined'>
+          <Card sx={{ maxWidth: 'auto' }}  raised>
             <CardMedia
               sx={{ height: 140 }}
               image={image_url}
