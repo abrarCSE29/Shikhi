@@ -4,7 +4,9 @@ import './Cart.css'
 export default function Cart(props) {
 
   const cartCourses = props.cartCourses;
-  console.log(props);
+  // console.log(props);
+
+  const grandTotal = cartCourses.reduce((sum,tmp)=> sum+tmp.price,0);
   return (
     <Box
       className='cart-container'
@@ -44,7 +46,7 @@ export default function Cart(props) {
                       </Box>
                       <Box>
                         <ListItem >
-                          <ListItemText className='bold'>{course.price}</ListItemText>
+                          <ListItemText className='bold'>Tk {course.price}</ListItemText>
                         </ListItem>
                       </Box>
                     </Box>
@@ -68,6 +70,10 @@ export default function Cart(props) {
               >
                 <Box>
                   <Typography
+                    variant="h5"
+                    color="initial"
+                    textAlign={'center'}
+                    fontWeight={600}
                   >
                     Total
                   </Typography>
@@ -79,13 +85,11 @@ export default function Cart(props) {
                     textAlign={'center'}
                     fontWeight={600}
                   >
-                    {props.total}
+                    Tk {grandTotal}
                   </Typography>
                 </Box>
               </Box>
           }
-
-
         </Box>
 
       </Paper>
