@@ -2,6 +2,9 @@ import { Box, List, ListItem, ListItemText, Paper, Typography } from '@mui/mater
 import React from 'react'
 import './Cart.css'
 export default function Cart(props) {
+
+  const cartCourses = props.cartCourses;
+  console.log(props);
   return (
     <Box
       className='cart-container'
@@ -20,21 +23,26 @@ export default function Cart(props) {
           >
             My Cart
           </Typography>
-          <Typography>
+          {/* <Typography>
             Items
-          </Typography>
+          </Typography> */}
+
           {
-             props.cartCoures
+            cartCourses.length === 0 ?
+              <Typography textAlign={'center'}>
+                Your cart is empty
+              </Typography> :
+
+              cartCourses.map((course, index) =>
+                <List key={index}>
+                  <ListItem >
+                    <ListItemText className='hover'>{course.name}</ListItemText>
+                  </ListItem>
+                </List>
+              )
+
           }
 
-          <List>
-            <ListItem >
-              <ListItemText className='hover'>Course 1</ListItemText>
-            </ListItem>
-            <ListItem>
-              <ListItemText>Course 2</ListItemText>
-            </ListItem>
-          </List>
         </Box>
 
       </Paper>

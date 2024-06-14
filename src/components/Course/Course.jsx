@@ -37,7 +37,7 @@ export default function Course(props) {
                     <span style={{color : 'red', fontSize:'xx-large'} }>Only {price} Taka</span>
                   </Typography>
                 </Box>
-
+                
               </Box>
 
             </CardContent>

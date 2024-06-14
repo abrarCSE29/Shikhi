@@ -13,7 +13,7 @@ export default function Homepage() {
   const handleAddCourseToCart = (course) => {
     setCartCourse([...cartCourse,course]);
   }
-  console.log(cartCourse);
+  // console.log(cartCourse);
 
   return (
     <Box
