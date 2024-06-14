@@ -1,7 +1,7 @@
 import { Box, List, ListItem, ListItemText, Paper, Typography } from '@mui/material'
 import React from 'react'
 import './Cart.css'
-export default function Cart() {
+export default function Cart(props) {
   return (
     <Box
       className='cart-container'
@@ -23,6 +23,10 @@ export default function Cart() {
           <Typography>
             Items
           </Typography>
+          {
+             props.cartCoures
+          }
+
           <List>
             <ListItem >
               <ListItemText className='hover'>Course 1</ListItemText>
