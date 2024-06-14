@@ -2,4 +2,7 @@
     display: flex;
     flex-direction: column;
     row-gap: 10;
+    justify-self: center;
+    color: blue;
+    text-align: center;
 }
