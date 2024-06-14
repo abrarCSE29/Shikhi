@@ -1,6 +1,7 @@
 import React from 'react'
 import { useRouteError } from 'react-router-dom'
 import './ErrorPage.css'
+import Header from '../Header/Header';
 export default function ErrorPage() {
 
     const error = useRouteError();
@@ -8,6 +9,7 @@ export default function ErrorPage() {
 
     return (
         <div id="error-page">
+            <Header></Header>
             <h1>Oops!</h1>
             <p>Sorry, an unexpected error has occurred.</p>
             <p>
