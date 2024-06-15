@@ -12,7 +12,12 @@ export default function Homepage() {
 
   const handleAddCourseToCart = (course) => {
     setCartCourse([...cartCourse,course]);
-  }
+  };
+
+  const handleRemoveCourseFromCart = (course) =>{
+    const newCartCourses = cartCourse.filter(pd => pd.id !== course.id);
+    setCartCourse(newCartCourses);
+  };
   // console.log(cartCourse);
 
   return (
@@ -23,12 +28,12 @@ export default function Homepage() {
         <Grid item xs={8}>
           {
             courses.map((course, index) =>
-              <Course key={index} course={course} handleAddCourseToCart={handleAddCourseToCart}></Course>
+              <Course key={index} course={course} handleAddCourseToCart={handleAddCourseToCart} ></Course>
             )
           }
         </Grid>
         <Grid item xs={4}>
-          <Cart cartCourses = {cartCourse}></Cart>
+          <Cart cartCourses = {cartCourse} handleRemoveCourseFromCart={handleRemoveCourseFromCart}></Cart>
         </Grid>
       </Grid>
     </Box>

@@ -1,12 +1,13 @@
-import { Box, List, ListItem, ListItemText, Paper, Typography } from '@mui/material'
+import { Box, Button, List, ListItem, ListItemText, Paper, Typography } from '@mui/material'
 import React from 'react'
 import './Cart.css'
+import DeleteIcon from '@mui/icons-material/Delete';
 export default function Cart(props) {
 
   const cartCourses = props.cartCourses;
-  // console.log(props);
+  //console.log(props);
 
-  const grandTotal = cartCourses.reduce((sum,tmp)=> sum+tmp.price,0);
+  const grandTotal = cartCourses.reduce((sum, tmp) => sum + tmp.price, 0);
   return (
     <Box
       className='cart-container'
@@ -39,16 +40,30 @@ export default function Cart(props) {
                       display={'flex'}
                       justifyContent={'space-between'}
                     >
-                      <Box>
+                      <Box
+                        sx={{
+                          display : 'flex',
+                          justifyContent : 'flex-start',
+                          alignItems : 'center'
+                        }}
+                      >
+                        <Box>
+                          <Button variant='contained'startIcon={<DeleteIcon/>} onClick={()=>props.handleRemoveCourseFromCart(course)}>Delete</Button>
+                        </Box>
+                        
+                        <Box>
                         <ListItem >
                           <ListItemText className='bold'>{course.name}</ListItemText>
                         </ListItem>
                       </Box>
+                      </Box>
+                      
                       <Box>
                         <ListItem >
                           <ListItemText className='bold'>Tk {course.price}</ListItemText>
                         </ListItem>
                       </Box>
+
                     </Box>
 
                     {
