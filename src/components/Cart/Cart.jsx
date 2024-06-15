@@ -5,7 +5,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 export default function Cart(props) {
 
   const cartCourses = props.cartCourses;
-  // console.log(props);
+  //console.log(props);
 
   const grandTotal = cartCourses.reduce((sum, tmp) => sum + tmp.price, 0);
   return (
@@ -47,7 +47,10 @@ export default function Cart(props) {
                           alignItems : 'center'
                         }}
                       >
-                        <DeleteIcon/>
+                        <Box>
+                          <Button variant='contained'startIcon={<DeleteIcon/>} onClick={()=>props.handleRemoveCourseFromCart(course)}>Delete</Button>
+                        </Box>
+                        
                         <Box>
                         <ListItem >
                           <ListItemText className='bold'>{course.name}</ListItemText>
