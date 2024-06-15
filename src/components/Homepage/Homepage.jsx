@@ -31,8 +31,6 @@ export default function Homepage() {
           <Cart cartCourses = {cartCourse}></Cart>
         </Grid>
       </Grid>
-
-
     </Box>
   )
 }

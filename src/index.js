@@ -8,7 +8,10 @@ import ErrorPage from './components/Error/ErrorPage';
 import UnderDevelopmentPage from './components/Error/UnderDevelopmentPage';
 import Homepage from './components/Homepage/Homepage';
 import Cart from './components/Cart/Cart';
-
+import UserProfile from './components/UserProfile/UserProfile';
+import courses from './components/Homepage/courses';
+import Course from './components/Course/Course';
+import VIewCourses from './components/Course/VIewCourses';
 const router = createBrowserRouter([
   {
     path: '/',
@@ -29,11 +32,15 @@ const router = createBrowserRouter([
       },
       {
         path: '/Courses',
-        element: <h1 style={{textAlign :'center'}} >Available courses are shown here</h1>,
+        element: <VIewCourses/>,
       },
       {
         path: '/My Cart',
         element: <h1 style={{textAlign :'center'}}>This is My Cart</h1>,
+      },
+      {
+        path: '/Profile',
+        element: <UserProfile/>,
       },
     ],
   },
