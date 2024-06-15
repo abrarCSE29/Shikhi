@@ -45,7 +45,7 @@ function Header() {
             variant="h6"
             noWrap
             component="a"
-            href="/"
+            // href="/"
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
@@ -56,7 +56,10 @@ function Header() {
               textDecoration: 'none',
             }}
           >
-            Shikhi
+            <Link to={`/`} style={{
+              textDecoration: 'none',
+              color: 'inherit'
+            }}>Shikhi</Link>
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -90,8 +93,8 @@ function Header() {
             >
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography 
-                  textAlign="center"
+                  <Typography
+                    textAlign="center"
                   // href="https://github.com/"
                   >{page}</Typography>
                 </MenuItem>
@@ -115,7 +118,7 @@ function Header() {
               textDecoration: 'none',
             }}
           >
-            
+
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
@@ -123,9 +126,12 @@ function Header() {
                 key={page}
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}
-                href={page}
+              // href={page}
               >
-                {page}
+                <Link style={{
+                  textDecoration: 'none',
+                  color: 'inherit'
+                }} to={`${page}`}>{page}</Link>
               </Button>
             ))}
           </Box>

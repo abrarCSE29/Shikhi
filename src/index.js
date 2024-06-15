@@ -7,6 +7,7 @@ import {createBrowserRouter, RouterProvider} from 'react-router-dom';
 import ErrorPage from './components/Error/ErrorPage';
 import UnderDevelopmentPage from './components/Error/UnderDevelopmentPage';
 import Homepage from './components/Homepage/Homepage';
+import Cart from './components/Cart/Cart';
 
 const router = createBrowserRouter([
   {
@@ -28,7 +29,11 @@ const router = createBrowserRouter([
       },
       {
         path: '/Courses',
-        element: <h1>Courses</h1>,
+        element: <h1 style={{textAlign :'center'}} >Available courses are shown here</h1>,
+      },
+      {
+        path: '/My Cart',
+        element: <h1 style={{textAlign :'center'}}>This is My Cart</h1>,
       },
     ],
   },
