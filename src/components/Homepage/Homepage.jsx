@@ -15,7 +15,8 @@ export default function Homepage() {
   };
 
   const handleRemoveCourseFromCart = (course) =>{
-    console.log("remove clicked");
+    const newCartCourses = cartCourse.filter(pd => pd.id !== course.id);
+    setCartCourse(newCartCourses);
   };
   // console.log(cartCourse);
 
