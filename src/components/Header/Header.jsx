@@ -15,7 +15,7 @@ import { Link } from 'react-router-dom';
 
 
 const pages = ['Courses', 'My Cart', 'Contact'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const settings = ['Profile', 'Dashboard', 'Logout'];
 
 function Header() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -160,7 +160,7 @@ function Header() {
             >
               {settings.map((setting) => (
                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+                  <Typography textAlign="center"><Link style={{textDecoration : 'none',color : 'inherit'}} to={`${setting}`}>{setting}</Link></Typography>
                 </MenuItem>
               ))}
             </Menu>
