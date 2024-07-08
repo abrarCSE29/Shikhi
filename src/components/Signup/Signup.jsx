@@ -1,10 +1,16 @@
 import { Box, Button, TextField, Typography } from '@mui/material'
+import { createUserWithEmailAndPassword, getAuth, updateProfile } from 'firebase/auth';
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
+import { initializeApp } from 'firebase/app';
+import firebaseConfig from '../Firebase/FirebaseConfig';
+
+const app = initializeApp(firebaseConfig);
 
 export default function Signup() {
 
     const [formData, setFormData] = useState({
+        name: '',
         email: '',
         password: ''
     });
@@ -18,8 +24,35 @@ export default function Signup() {
     };
 
     const handleSubmit = (e) => {
+        const auth = getAuth();
+        createUserWithEmailAndPassword(auth, formData.email, formData.password)
+            .then((userCredential) => {
+                // Signed up 
+                updateProfile(auth.currentUser, {
+                    displayName: formData.name,
+                }).then(() => {
+                    alert("Profile Name Updated");
+                    console.log("User Profile Updated");
+                }).catch((error) => {
+                    alert("Profile Update Failed");
+                    console.error("Error updating user profile", error);
+                });
+                const user = userCredential.user;
+                alert("User Signed Up");
+                console.log(user);
+                // ...
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                // ..
+            });
+
+
+
         e.preventDefault(); // Prevent form submission which causes page reload
         setFormData({
+            name: '',
             email: '',
             password: ''
         });
@@ -45,6 +78,18 @@ export default function Signup() {
                 Registration Form
             </Typography>
             <form onSubmit={handleSubmit} style={{ width: '100%' }}>
+
+                <TextField
+                    label="Name"
+                    name="name"
+                    type="text"
+                    variant="outlined"
+                    fullWidth
+                    margin="normal"
+                    value={formData.name}
+                    onChange={handleChange}
+                />
+
                 <TextField
                     label="Email"
                     name="email"
@@ -70,24 +115,24 @@ export default function Signup() {
                     variant="contained"
                     color="primary"
                     fullWidth
-                    sx={{ 
-                        mt: 2 ,
-                        background : 'black',
-                        color : 'white',
-                        '&:hover' : {
-                            background : '#424242',
-                            color : 'white'
+                    sx={{
+                        mt: 2,
+                        background: 'black',
+                        color: 'white',
+                        '&:hover': {
+                            background: '#424242',
+                            color: 'white'
                         }
                     }}
                 >
                     Register
                 </Button>
-                <Box 
+                <Box
                     sx={{
                         margin: '5% 0 5% 0',
                     }}
                 >
-                    <Typography ><Link to={"/Login"} style={{textDecoration : 'none', color : 'blue', fontWeight : 'bold'}}> Already have an account ? Go to signin</Link> </Typography>
+                    <Typography ><Link to={"/Login"} style={{ textDecoration: 'none', color: 'blue', fontWeight: 'bold' }}> Already have an account ? Go to signin</Link> </Typography>
                 </Box>
             </form>
         </Box>

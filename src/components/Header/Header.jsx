@@ -41,9 +41,18 @@ function Header() {
   };
 
   const handleLogInBtnClick = () => {
-      navigate('/Login');
+    navigate('/Login');
   }
-  console.log(loggedInUser.isSignedIn);
+  // console.log(loggedInUser.isSignedIn);
+
+  const handleLogout = () => {
+    const newUser = { ...loggedInUser };
+    newUser.name = '';
+    newUser.email = '';
+    newUser.isSignedIn = false;
+    setLoggedInUser(newUser);
+    console.log(loggedInUser);
+  }
 
   return (
     <AppBar position="static">
@@ -152,8 +161,22 @@ function Header() {
                   onClose={handleCloseUserMenu}
                 >
                   {settings.map((setting) => (
-                    <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                      <Typography textAlign="center"><Link style={{ textDecoration: 'none', color: 'inherit' }} to={`${setting}`}>{setting}</Link></Typography>
+                    <MenuItem
+                      key={setting}
+                      onClick={() => {
+                        if (setting === "Logout") {
+                          handleLogout();
+                        } else {
+                          handleCloseUserMenu();
+                        }
+                      }}>
+
+                      <Typography textAlign="center">
+
+                        {setting === "Logout" ? <span>{setting}</span> :
+                          <Link style={{ textDecoration: 'none', color: 'inherit' }} to={`${setting}`} >{setting}</Link>
+                        }
+                      </Typography>
                     </MenuItem>
                   ))}
                 </Menu>
