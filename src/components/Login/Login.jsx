@@ -2,7 +2,10 @@ import { Box, Button, TextField, Typography } from '@mui/material'
 import React, { useContext, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { UserContext } from '../Context/UserContext';
-
+import firebaseConfig from '../Firebase/FirebaseConfig';
+import { initializeApp } from 'firebase/app';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+const app = initializeApp(firebaseConfig);
 export default function Login() {
     const [error, setError] = useState(false);
     const [formData, setFormData] = useState({
@@ -10,9 +13,9 @@ export default function Login() {
         password: ''
     });
 
-    const { setUser } = useContext(UserContext); // Access setUser from context
+    const { loggedInUser, setLoggedInUser } = useContext(UserContext); // Access setUser from context
     const navigate = useNavigate();
-
+    console.log(loggedInUser);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -23,6 +26,27 @@ export default function Login() {
     };
 
     const handleSubmit = (e) => {
+
+        const auth = getAuth();
+        signInWithEmailAndPassword(auth, formData.email, formData.password)
+            .then((userCredential) => {
+                // Signed in 
+                const user = userCredential.user;
+                console.log(user);
+                alert(`Dear ${user.displayName}, Successfully signed in`);
+                const newUser = {...loggedInUser};
+                newUser.name = user.displayName;
+                newUser.email = user.email;
+                newUser.isSignedIn = true;
+                setLoggedInUser(newUser);
+                // ...
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+            });
+
+
         e.preventDefault(); // Prevent form submission which causes page reload
     };
 
@@ -76,14 +100,9 @@ export default function Login() {
                     color="primary"
                     fullWidth
                     sx={{
-                        mt: 2,
-                        background: 'black',
-                        color: 'white',
-                        '&:hover': {
-                            background: '#424242',
-                            color: 'white'
-                        }
-                    }}
+                        mt: 2
+                    }
+                    }
                 >
                     Login
                 </Button>
@@ -92,7 +111,7 @@ export default function Login() {
                         margin: '5% 0 5% 0',
                     }}
                 >
-                    <Typography ><Link to={"/signup"} style={{ textDecoration: 'none', color: 'blue', fontWeight: 'bold' }}> No account ? Create one</Link> </Typography>
+                    <Typography ><Link to={"/Signup"} style={{ textDecoration: 'none', color: 'blue', fontWeight: 'bold' }}> No account ? Create one</Link> </Typography>
                 </Box>
             </form>
         </Box>
