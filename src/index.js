@@ -12,6 +12,9 @@ import UserProfile from './components/UserProfile/UserProfile';
 import courses from './components/Homepage/courses';
 import Course from './components/Course/Course';
 import VIewCourses from './components/Course/VIewCourses';
+import { UserProvider } from './components/Context/UserContext';
+import Login from './components/Login/Login';
+import Signup from './components/Signup/Signup';
 const router = createBrowserRouter([
   {
     path: '/',
@@ -42,6 +45,14 @@ const router = createBrowserRouter([
         path: '/Profile',
         element: <UserProfile/>,
       },
+      {
+        path: '/Login',
+        element: <Login/>,
+      },
+      {
+        path: '/Signup',
+        element: <Signup/>,
+      },
     ],
   },
 
@@ -51,7 +62,10 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <RouterProvider  router={router}/>
+    <UserProvider>
+      <RouterProvider  router={router}/>
+    </UserProvider>
+    
   </React.StrictMode>
 );
 
