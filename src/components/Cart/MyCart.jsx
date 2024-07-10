@@ -1,12 +1,25 @@
 import { Box, Button, List, ListItem, ListItemText, Paper, Typography } from '@mui/material'
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { UserContext } from '../Context/UserContext';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { useNavigate } from 'react-router-dom';
 
 export default function MyCart() {
-    const {cart, handleRemoveCourseFromCart} = useContext(UserContext);
-    const cartCourses = cart;
+    const {loggedInUser,cart,setCart, handleRemoveCourseFromCart} = useContext(UserContext);
+    const [cartCourses,setCartCourses] = useState(cart);
     const grandTotal = cartCourses.reduce((sum, tmp) => sum + tmp.price, 0);
+    const navigate = useNavigate();
+    const handlePlaceOrder = () => {
+        if(loggedInUser.isSignedIn === true) {
+            // Place order code goes here
+            alert(`Order placed for ${loggedInUser.name}`);
+            setCart([]);
+            setCartCourses([]);
+            
+        }else {
+            navigate('/Login');
+        }
+    }
     return (
         <Box
             className='cart-container'
@@ -118,7 +131,7 @@ export default function MyCart() {
                                 justifyContent={'center'}
                                 margin={'2%'}
                             >
-                                <Button variant='contained' color='primary'>Place Order</Button>
+                                <Button variant='contained' color='primary' onClick={handlePlaceOrder}>Place Order</Button>
                             </Box>
                     }
                 </Box>
