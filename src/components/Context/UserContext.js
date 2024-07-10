@@ -4,13 +4,17 @@ export const UserContext = createContext();
 
 export const UserProvider = ({children}) => {
     const [loggedInUser,setLoggedInUser] = useState({
-        name: 'Abul',
-        email: 'abu@gmail.com',
+        name: '',
+        email: '',
         isSignedIn: false,
     });
-    
+    const [cart,setCart] = useState([]);
+    const handleRemoveCourseFromCart = (course) =>{
+        const newCartCourses = cart.filter(pd => pd.id !== course.id);
+        setCart(newCartCourses);
+      };
     return (
-        <UserContext.Provider value={{loggedInUser, setLoggedInUser}}>
+        <UserContext.Provider value={{loggedInUser, setLoggedInUser,cart,setCart,handleRemoveCourseFromCart}}>
             {children}
         </UserContext.Provider>
     );
