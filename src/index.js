@@ -15,7 +15,10 @@ import VIewCourses from './components/Course/VIewCourses';
 import { UserProvider } from './components/Context/UserContext';
 import Login from './components/Login/Login';
 import Signup from './components/Signup/Signup';
+
 import MyCart from './components/Cart/MyCart';
+
+
 const router = createBrowserRouter([
   {
     path: '/',
