@@ -52,6 +52,7 @@ function Header() {
     newUser.isSignedIn = false;
     setLoggedInUser(newUser);
     console.log(loggedInUser);
+    navigate('/');
   }
 
   return (

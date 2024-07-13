@@ -5,6 +5,8 @@ import { UserContext } from '../Context/UserContext';
 import firebaseConfig from '../Firebase/FirebaseConfig';
 import { initializeApp } from 'firebase/app';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+
+
 const app = initializeApp(firebaseConfig);
 export default function Login() {
     const [error, setError] = useState(false);
