@@ -40,7 +40,7 @@ function Header() {
     setAnchorElUser(null);
   };
 
-  const handleLogInBtnClick = () => {
+  const handleLogInBtnClick = (click) => {
     navigate('/Login');
   }
   // console.log(loggedInUser.isSignedIn);
@@ -186,7 +186,7 @@ function Header() {
             ) : (
               <Button
                 variant='contained'
-                onClick={handleLogInBtnClick}
+                onClick={()=>handleLogInBtnClick(null)}
               >
                 Login
               </Button>
