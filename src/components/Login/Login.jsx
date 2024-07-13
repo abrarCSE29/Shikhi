@@ -1,6 +1,6 @@
 import { Box, Button, TextField, Typography } from '@mui/material'
 import React, { useContext, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { UserContext } from '../Context/UserContext';
 import firebaseConfig from '../Firebase/FirebaseConfig';
 import { initializeApp } from 'firebase/app';
@@ -15,6 +15,8 @@ export default function Login() {
 
     const { loggedInUser, setLoggedInUser } = useContext(UserContext); // Access setUser from context
     const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || '/';
     console.log(loggedInUser);
 
     const handleChange = (e) => {
@@ -39,6 +41,8 @@ export default function Login() {
                 newUser.email = user.email;
                 newUser.isSignedIn = true;
                 setLoggedInUser(newUser);
+                navigate(from , {replace: true});
+
                 // ...
             })
             .catch((error) => {

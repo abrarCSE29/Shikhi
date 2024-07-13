@@ -1,14 +1,18 @@
 import { Box, Button, List, ListItem, ListItemText, Paper, Typography } from '@mui/material'
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { UserContext } from '../Context/UserContext';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export default function MyCart() {
     const {loggedInUser,cart,setCart, handleRemoveCourseFromCart} = useContext(UserContext);
     const [cartCourses,setCartCourses] = useState(cart);
     const grandTotal = cartCourses.reduce((sum, tmp) => sum + tmp.price, 0);
     const navigate = useNavigate();
+    const location = useLocation();
+    useEffect(()=>{
+        setCartCourses(cart);
+    },[cart])
     const handlePlaceOrder = () => {
         if(loggedInUser.isSignedIn === true) {
             // Place order code goes here
@@ -17,7 +21,7 @@ export default function MyCart() {
             setCartCourses([]);
             
         }else {
-            navigate('/Login');
+            navigate('/Login', { state: { from: location } });
         }
     }
     return (
@@ -65,7 +69,7 @@ export default function MyCart() {
                                                 }}
                                             >
                                                 <Box>
-                                                    <Button variant='contained' startIcon={<DeleteIcon />} onClick={() => handleRemoveCourseFromCart(course)}>Delete</Button>
+                                                    <Button variant='contained' startIcon={<DeleteIcon />} onClick={() => {handleRemoveCourseFromCart(course); setCartCourses(cart)}}>Delete</Button>
                                                 </Box>
 
                                                 <Box>
