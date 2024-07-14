@@ -1,22 +1,27 @@
 import { Box, Grid } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import './Homepage.css'
 import Course from '../Course/Course'
 import Cart from '../Cart/Cart'
 import courses from './courses'
+import { UserContext } from '../Context/UserContext'
 export default function Homepage() {
 
   //const [allcourse,setAllCourses] = useState([]);
   
-  const [cartCourse, setCartCourse] = useState([]);
-
+ 
+  const {cart,setCart} = useContext(UserContext);
+  const [cartCourse, setCartCourse] = useState(cart);
+  console.log(cart);
   const handleAddCourseToCart = (course) => {
     setCartCourse([...cartCourse,course]);
+    setCart([...cart,course]);
   };
 
   const handleRemoveCourseFromCart = (course) =>{
     const newCartCourses = cartCourse.filter(pd => pd.id !== course.id);
     setCartCourse(newCartCourses);
+    setCart(newCartCourses);
   };
   // console.log(cartCourse);
 

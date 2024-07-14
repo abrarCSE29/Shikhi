@@ -2,12 +2,18 @@ import { Box, Button, List, ListItem, ListItemText, Paper, Typography } from '@m
 import React from 'react'
 import './Cart.css'
 import DeleteIcon from '@mui/icons-material/Delete';
+import { useNavigate } from 'react-router-dom';
 export default function Cart(props) {
 
   const cartCourses = props.cartCourses;
   //console.log(props);
 
   const grandTotal = cartCourses.reduce((sum, tmp) => sum + tmp.price, 0);
+  const navigate = useNavigate();
+  const handleCheckout = () => {
+    navigate('/My Cart');
+    alert('Checkout Successful!');
+  }
   return (
     <Box
       className='cart-container'
@@ -73,6 +79,7 @@ export default function Cart(props) {
                     }
                   </List>
                 </Box>
+                
               )
           }
           {
@@ -103,6 +110,17 @@ export default function Cart(props) {
                     Tk {grandTotal}
                   </Typography>
                 </Box>
+              </Box>
+          }
+          {
+            cartCourses.length === 0?
+              <></> :
+              <Box
+                display={'flex'}
+                justifyContent={'center'}
+                margin={'2%'}
+              >
+                <Button variant='contained' color='primary' onClick={handleCheckout}>Checkout</Button>
               </Box>
           }
         </Box>

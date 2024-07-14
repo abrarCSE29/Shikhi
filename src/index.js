@@ -15,6 +15,10 @@ import VIewCourses from './components/Course/VIewCourses';
 import { UserProvider } from './components/Context/UserContext';
 import Login from './components/Login/Login';
 import Signup from './components/Signup/Signup';
+
+import MyCart from './components/Cart/MyCart';
+
+
 const router = createBrowserRouter([
   {
     path: '/',
@@ -39,7 +43,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/My Cart',
-        element: <h1 style={{textAlign :'center'}}>This is My Cart</h1>,
+        element: <MyCart/>,
       },
       {
         path: '/Profile',
