@@ -16,6 +16,8 @@ import { UserProvider } from './components/Context/UserContext';
 import Login from './components/Login/Login';
 import Signup from './components/Signup/Signup';
 import MyCart from './components/Cart/MyCart';
+import FirebaseDbTest from './components/FIrebaseDbTest/FirebaseDbTest';
+import FirebaseDbLogIn from './components/FIrebaseDbTest/FirebaseDbLogIn';
 const router = createBrowserRouter([
   {
     path: '/',
@@ -56,6 +58,14 @@ const router = createBrowserRouter([
       },
     ],
   },
+  {
+    path : '/dbtest',
+    element : <FirebaseDbTest/>
+  },
+  {
+    path : '/dbtestlogin',
+    element : <FirebaseDbLogIn/>
+  }
 
 ]);
 
