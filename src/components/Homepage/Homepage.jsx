@@ -1,46 +1,61 @@
 import { Box, Grid } from '@mui/material'
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import './Homepage.css'
 import Course from '../Course/Course'
 import Cart from '../Cart/Cart'
-import courses from './courses'
 import { UserContext } from '../Context/UserContext'
-export default function Homepage() {
+import axios from 'axios'; // Optional if using axios
 
-  //const [allcourse,setAllCourses] = useState([]);
-  
- 
-  const {cart,setCart} = useContext(UserContext);
+export default function Homepage() {
+  const [allCourses, setAllCourses] = useState([]);
+  const { cart, setCart } = useContext(UserContext);
   const [cartCourse, setCartCourse] = useState(cart);
-  console.log(cart);
+
+  // Fetch courses from the server when the component mounts
+  useEffect(() => {
+    // Using axios
+    axios.get('http://localhost:5000/courses')
+      .then(response => {
+        setAllCourses(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching courses:', error);
+      });
+
+    // Alternatively, you can use fetch
+    /*
+    fetch('http://localhost:5000/courses')
+      .then(response => response.json())
+      .then(data => setAllCourses(data))
+      .catch(error => console.error('Error fetching courses:', error));
+    */
+  }, []);
+
   const handleAddCourseToCart = (course) => {
-    setCartCourse([...cartCourse,course]);
-    setCart([...cart,course]);
+    setCartCourse([...cartCourse, course]);
+    setCart([...cart, course]);
   };
 
-  const handleRemoveCourseFromCart = (course) =>{
+  const handleRemoveCourseFromCart = (course) => {
     const newCartCourses = cartCourse.filter(pd => pd.id !== course.id);
     setCartCourse(newCartCourses);
     setCart(newCartCourses);
   };
-  // console.log(cartCourse);
 
   return (
-    <Box
-      className='container'
-    >
+    <Box className='container'>
       <Grid container spacing={2}>
         <Grid item xs={8}>
           {
-            courses.map((course, index) =>
-              <Course key={index} course={course} handleAddCourseToCart={handleAddCourseToCart} ></Course>
+            allCourses.map((course, index) =>
+              <Course key={index} course={course} handleAddCourseToCart={handleAddCourseToCart} />
             )
           }
         </Grid>
         <Grid item xs={4}>
-          <Cart cartCourses = {cartCourse} handleRemoveCourseFromCart={handleRemoveCourseFromCart}></Cart>
+          <Cart cartCourses={cartCourse} handleRemoveCourseFromCart={handleRemoveCourseFromCart} />
         </Grid>
       </Grid>
     </Box>
-  )
+  );
 }
