@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
 import { initializeApp } from 'firebase/app';
 import firebaseConfig from '../Firebase/FirebaseConfig';
+import axios from 'axios';
 
 const app = initializeApp(firebaseConfig);
 
@@ -33,6 +34,11 @@ export default function Signup() {
                 }).then(() => {
                     alert("Profile Name Updated");
                     console.log("User Profile Updated");
+                    axios.post('http://localhost:5000/users',{
+                        name : formData.name,
+                        email : formData.email
+                    })
+                    
                 }).catch((error) => {
                     alert("Profile Update Failed");
                     console.error("Error updating user profile", error);

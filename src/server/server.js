@@ -10,14 +10,15 @@ const uri = "mongodb+srv://jucse29398:4PETX4lgFan9saZW@cluster0.it9791n.mongodb.
 const client = new MongoClient(uri);
 
 const dbName = "Shikhi_Project";
-const collectionName = "courses";
+const courseCollection = "courses";
+const usersCollection = "users"
 
 // Fetch courses and log them to the terminal
 app.get('/courses', async (req, res) => {
   try {
     await client.connect();
     const db = client.db(dbName);
-    const collection = db.collection(collectionName);
+    const collection = db.collection(courseCollection);
     const courses = await collection.find({}).toArray(); // Fetch all courses
 
     // Log courses to the VSCode terminal
@@ -32,6 +33,26 @@ app.get('/courses', async (req, res) => {
     await client.close();
   }
 });
+
+app.post('/users', async (req, res) => {
+  const { name, email } = req.body;
+
+  try {
+    await client.connect();
+    const db = client.db(dbName);
+    const collection = db.collection(usersCollection);
+    const newUser = { name, email };
+    await collection.insertOne(newUser); // Insert the user into the MongoDB collection
+    res.status(201).json({ message: 'User created successfully' });
+  } catch (err) {
+    console.error('Error creating user:', err);
+    res.status(500).json({ message: 'Error creating user' });
+  } finally {
+    await client.close();
+  }
+});
+
+
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
