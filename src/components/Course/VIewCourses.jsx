@@ -14,14 +14,6 @@ export default function VIewCourses() {
           .catch(error => {
             console.error('Error fetching courses:', error);
           });
-    
-        // Alternatively, you can use fetch
-        /*
-        fetch('http://localhost:5000/courses')
-          .then(response => response.json())
-          .then(data => setAllCourses(data))
-          .catch(error => console.error('Error fetching courses:', error));
-        */
       }, []);
 
     return (
