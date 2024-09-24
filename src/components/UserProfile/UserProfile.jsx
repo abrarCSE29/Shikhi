@@ -10,6 +10,7 @@ export default function UserProfile() {
       <h2>{loggedInUser.mobile}</h2>
       <h2>{loggedInUser.dob}</h2>
       <h2>{loggedInUser.profession}</h2>
+      <h2>{loggedInUser.cart}</h2>
     </div>
   )
 }

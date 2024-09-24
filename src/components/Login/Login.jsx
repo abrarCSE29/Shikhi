@@ -12,7 +12,7 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 
 export default function Login() {
-    const { loggedInUser, setLoggedInUser } = useContext(UserContext); // Access setUser from context
+    const { loggedInUser, setLoggedInUser,cart,setCart } = useContext(UserContext); // Access setUser from context
     const [error, setError] = useState(false);
     const [formData, setFormData] = useState({
         email: '',
@@ -57,6 +57,7 @@ export default function Login() {
                     mobile: mongoUser.mobile,
                     dob: mongoUser.dob,
                     profession: mongoUser.profession,
+                    cart: mongoUser.cart,
                     isSignedIn: true
                 };
                 setLoggedInUser(newUser);
