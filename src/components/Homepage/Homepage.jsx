@@ -36,6 +36,7 @@ export default function Homepage() {
     setCart([...cart, course]);
   };
 
+
   const handleRemoveCourseFromCart = (course) => {
     const newCartCourses = cartCourse.filter(pd => pd.id !== course.id);
     setCartCourse(newCartCourses);
@@ -53,7 +54,7 @@ export default function Homepage() {
           }
         </Grid>
         <Grid item xs={4}>
-          <Cart cartCourses={cartCourse} handleRemoveCourseFromCart={handleRemoveCourseFromCart} />
+          <Cart cartCourses={cart} handleRemoveCourseFromCart={handleRemoveCourseFromCart} />
         </Grid>
       </Grid>
     </Box>

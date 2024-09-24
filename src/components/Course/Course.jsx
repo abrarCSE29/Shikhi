@@ -1,9 +1,12 @@
 import { Box, Button, Card, CardActions, CardContent, CardMedia, Typography } from '@mui/material'
-import React from 'react'
+import React, { useContext } from 'react'
 import './Course.css'
+import { UserContext } from '../Context/UserContext';
+
 export default function Course(props) {
-  // console.log(props.course);
+   console.log(props);
   const { name, description, image_url, price } = props.course;
+  const {handleAddCourseToCart} = useContext(UserContext);
   return (
     <div>
       <Box
@@ -42,7 +45,7 @@ export default function Course(props) {
 
             </CardContent>
             <CardActions>
-              <Button size="large" variant='contained' onClick={()=>props.handleAddCourseToCart(props.course)}>Add to cart</Button>
+              <Button size="large" variant='contained' onClick={()=>handleAddCourseToCart(props.course)}>Add to cart</Button>
             </CardActions>
           </Card>
         </Box>
