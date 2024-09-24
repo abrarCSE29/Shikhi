@@ -20,6 +20,9 @@ export const UserProvider = ({ children }) => {
     setCart(newCartCourses);
   };
 
+  const handleAddCourseToCart = (course) => {
+    setCart([...cart, course]);
+  };
   const emptyCart = () => {
     setCart([]);
   };
@@ -41,6 +44,7 @@ export const UserProvider = ({ children }) => {
         cart,
         setCart,
         handleRemoveCourseFromCart,
+        handleAddCourseToCart,
         emptyCart,
       }}
     >

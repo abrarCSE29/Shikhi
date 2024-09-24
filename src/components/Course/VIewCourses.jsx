@@ -25,7 +25,7 @@ export default function VIewCourses() {
                     <Grid item xs={12}>
                         {
                             allCourses.map((course,index)=>
-                                <Course key={index} course={course}></Course>
+                                <Course key={index} course={course} ></Course>
                             )
                         }
                     </Grid>
