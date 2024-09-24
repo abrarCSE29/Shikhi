@@ -1,15 +1,20 @@
+import React, { createContext, useState, useEffect } from "react";
 
-import React, { createContext, useState } from "react";
-
+// Create the UserContext
 export const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
-  const [loggedInUser, setLoggedInUser] = useState({
-    name: "",
-    email: "",
-    isSignedIn: false,
+  // Initialize loggedInUser with data from localStorage, if available
+  const [loggedInUser, setLoggedInUser] = useState(() => {
+    const savedUser = localStorage.getItem("loggedInUser");
+    return savedUser
+      ? JSON.parse(savedUser)
+      : { name: "", email: "", mobile: "", dob: "", profession: "", isSignedIn: false };
   });
+
+  // Cart state and handlers
   const [cart, setCart] = useState([]);
+
   const handleRemoveCourseFromCart = (course) => {
     const newCartCourses = cart.filter((pd) => pd.id !== course.id);
     setCart(newCartCourses);
@@ -17,7 +22,17 @@ export const UserProvider = ({ children }) => {
 
   const emptyCart = () => {
     setCart([]);
-  }
+  };
+
+  // Use effect to update localStorage when loggedInUser state changes
+  useEffect(() => {
+    if (loggedInUser.isSignedIn) {
+      localStorage.setItem("loggedInUser", JSON.stringify(loggedInUser));
+    } else {
+      localStorage.removeItem("loggedInUser"); // Remove user data on sign-out
+    }
+  }, [loggedInUser]);
+
   return (
     <UserContext.Provider
       value={{
@@ -33,4 +48,3 @@ export const UserProvider = ({ children }) => {
     </UserContext.Provider>
   );
 };
-

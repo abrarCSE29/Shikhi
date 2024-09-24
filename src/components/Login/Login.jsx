@@ -1,25 +1,27 @@
-import { Box, Button, TextField, Typography } from '@mui/material'
-import React, { useContext, useState } from 'react'
+import { Box, Button, TextField, Typography } from '@mui/material';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { UserContext } from '../Context/UserContext';
 import firebaseConfig from '../Firebase/FirebaseConfig';
 import { initializeApp } from 'firebase/app';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { getAuth, setPersistence, browserLocalPersistence, onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth';
+import axios from 'axios';
 
-
+// Initialize Firebase app and auth
 const app = initializeApp(firebaseConfig);
+const auth = getAuth();
+
 export default function Login() {
+    const { loggedInUser, setLoggedInUser } = useContext(UserContext); // Access setUser from context
     const [error, setError] = useState(false);
     const [formData, setFormData] = useState({
         email: '',
         password: ''
     });
 
-    const { loggedInUser, setLoggedInUser } = useContext(UserContext); // Access setUser from context
     const navigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from?.pathname || '/';
-    console.log(loggedInUser);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -30,32 +32,41 @@ export default function Login() {
     };
 
     const handleSubmit = (e) => {
+        e.preventDefault(); // Prevent form submission which causes page reload
 
-        const auth = getAuth();
-        signInWithEmailAndPassword(auth, formData.email, formData.password)
+        // Set the persistence to local to survive page reloads
+        setPersistence(auth, browserLocalPersistence)
+            .then(() => {
+                // Sign in the user
+                return signInWithEmailAndPassword(auth, formData.email, formData.password);
+            })
             .then((userCredential) => {
-                // Signed in 
                 const user = userCredential.user;
                 console.log(user);
-                alert(`Dear ${user.displayName}, Successfully signed in`);
-                const newUser = {...loggedInUser};
-                newUser.name = user.displayName;
-                newUser.email = user.email;
-                newUser.isSignedIn = true;
-                setLoggedInUser(newUser);
-                navigate(from , {replace: true});
+                alert(`Dear ${user.displayName || user.email}, Successfully signed in`);
 
-                // ...
+                // Fetch additional user details from MongoDB
+                return axios.get(`http://localhost:5000/users/${formData.email}`);
+            })
+            .then((response) => {
+                const mongoUser = response.data;
+                const newUser = {
+                    ...loggedInUser,
+                    name: mongoUser.name,
+                    email: mongoUser.email,
+                    mobile: mongoUser.mobile,
+                    dob: mongoUser.dob,
+                    profession: mongoUser.profession,
+                    isSignedIn: true
+                };
+                setLoggedInUser(newUser);
+                navigate(from, { replace: true });
             })
             .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
+                console.error("Error during login:", error);
+                setError(true);
             });
-
-
-        e.preventDefault(); // Prevent form submission which causes page reload
     };
-
 
     return (
         <Box
@@ -107,8 +118,7 @@ export default function Login() {
                     fullWidth
                     sx={{
                         mt: 2
-                    }
-                    }
+                    }}
                 >
                     Login
                 </Button>
@@ -117,9 +127,9 @@ export default function Login() {
                         margin: '5% 0 5% 0',
                     }}
                 >
-                    <Typography ><Link to={"/Signup"} style={{ textDecoration: 'none', color: 'blue', fontWeight: 'bold' }}> No account ? Create one</Link> </Typography>
+                    <Typography><Link to={"/Signup"} style={{ textDecoration: 'none', color: 'blue', fontWeight: 'bold' }}> No account? Create one</Link></Typography>
                 </Box>
             </form>
         </Box>
-    )
+    );
 }

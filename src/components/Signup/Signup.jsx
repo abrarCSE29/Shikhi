@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
 import { initializeApp } from 'firebase/app';
 import firebaseConfig from '../Firebase/FirebaseConfig';
+import axios from 'axios'; // Use axios to make HTTP requests
 
 const app = initializeApp(firebaseConfig);
 
@@ -12,7 +13,10 @@ export default function Signup() {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
-        password: ''
+        password: '',
+        mobile: '',
+        dob: '',
+        profession: ''
     });
 
     const handleChange = (e) => {
@@ -24,7 +28,10 @@ export default function Signup() {
     };
 
     const handleSubmit = (e) => {
+        e.preventDefault(); // Prevent form submission which causes page reload
         const auth = getAuth();
+
+        // Create user with Firebase
         createUserWithEmailAndPassword(auth, formData.email, formData.password)
             .then((userCredential) => {
                 // Signed up 
@@ -33,31 +40,47 @@ export default function Signup() {
                 }).then(() => {
                     alert("Profile Name Updated");
                     console.log("User Profile Updated");
+
+                    // After updating the profile, send user data to the backend
+                    axios.post('http://localhost:5000/users', {
+                        name: formData.name,
+                        email: formData.email,
+                        mobile: formData.mobile,
+                        dob: formData.dob,
+                        profession: formData.profession
+                    })
+                    .then((response) => {
+                        console.log('User stored in MongoDB:', response.data);
+                        alert("User data saved to MongoDB");
+                    })
+                    .catch((error) => {
+                        console.error('Error saving user to MongoDB:', error);
+                    });
+
                 }).catch((error) => {
                     alert("Profile Update Failed");
                     console.error("Error updating user profile", error);
                 });
+
                 const user = userCredential.user;
                 alert("User Signed Up");
                 console.log(user);
-                // ...
             })
             .catch((error) => {
-                const errorCode = error.code;
                 const errorMessage = error.message;
-                // ..
+                alert(`Error: ${errorMessage}`);
             });
 
-
-
-        e.preventDefault(); // Prevent form submission which causes page reload
+        // Clear the form after submission
         setFormData({
             name: '',
             email: '',
-            password: ''
+            password: '',
+            mobile: '',
+            dob: '',
+            profession: ''
         });
     };
-
 
     return (
         <Box
@@ -100,6 +123,7 @@ export default function Signup() {
                     value={formData.email}
                     onChange={handleChange}
                 />
+
                 <TextField
                     label="Password"
                     name="password"
@@ -110,6 +134,41 @@ export default function Signup() {
                     value={formData.password}
                     onChange={handleChange}
                 />
+
+                <TextField
+                    label="Mobile Number"
+                    name="mobile"
+                    type="text"
+                    variant="outlined"
+                    fullWidth
+                    margin="normal"
+                    value={formData.mobile}
+                    onChange={handleChange}
+                />
+
+                <TextField
+                    label="Date of Birth"
+                    name="dob"
+                    type="date"
+                    variant="outlined"
+                    fullWidth
+                    margin="normal"
+                    InputLabelProps={{ shrink: true }}
+                    value={formData.dob}
+                    onChange={handleChange}
+                />
+
+                <TextField
+                    label="Profession"
+                    name="profession"
+                    type="text"
+                    variant="outlined"
+                    fullWidth
+                    margin="normal"
+                    value={formData.profession}
+                    onChange={handleChange}
+                />
+
                 <Button
                     type="submit"
                     variant="contained"
@@ -132,7 +191,7 @@ export default function Signup() {
                         margin: '5% 0 5% 0',
                     }}
                 >
-                    <Typography ><Link to={"/Login"} style={{ textDecoration: 'none', color: 'blue', fontWeight: 'bold' }}> Already have an account ? Go to signin</Link> </Typography>
+                    <Typography><Link to={"/Login"} style={{ textDecoration: 'none', color: 'blue', fontWeight: 'bold' }}>Already have an account? Go to signin</Link></Typography>
                 </Box>
             </form>
         </Box>
