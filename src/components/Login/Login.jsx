@@ -23,36 +23,6 @@ export default function Login() {
     const location = useLocation();
     const from = location.state?.from?.pathname || '/';
 
-    // Check authentication state on page load and persist login session
-    // useEffect(() => {
-    //     const unsubscribe = onAuthStateChanged(auth, (user) => {
-    //         if (user) {
-    //             // User is signed in, retrieve additional user data from MongoDB
-    //             axios.get(`http://localhost:5000/users/${user.email}`)
-    //                 .then((response) => {
-    //                     const mongoUser = response.data;
-    //                     const newUser = {
-    //                         name: mongoUser.name,
-    //                         email: mongoUser.email,
-    //                         mobile: mongoUser.mobile,
-    //                         dob: mongoUser.dob,
-    //                         profession: mongoUser.profession,
-    //                         isSignedIn: true,
-    //                     };
-    //                     setLoggedInUser(newUser); // Set user info in context
-    //                 })
-    //                 .catch((error) => {
-    //                     console.error('Error fetching user data:', error);
-    //                 });
-    //         } else {
-    //             // User is signed out
-    //             setLoggedInUser({ isSignedIn: false });
-    //         }
-    //     });
-
-    //     return () => unsubscribe(); // Cleanup listener on unmount
-    // }, [auth, setLoggedInUser]);
-
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prevState) => ({
