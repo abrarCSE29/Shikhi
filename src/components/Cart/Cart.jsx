@@ -1,14 +1,16 @@
 import { Box, Button, List, ListItem, ListItemText, Paper, Typography } from '@mui/material'
-import React from 'react'
+import React, { useContext } from 'react'
 import './Cart.css'
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useNavigate } from 'react-router-dom';
+import { UserContext } from '../Context/UserContext';
 export default function Cart(props) {
 
   const cartCourses = props.cartCourses;
   //console.log(props);
 
   const grandTotal = cartCourses.reduce((sum, tmp) => sum + tmp.price, 0);
+  const {handleRemoveCourseFromCart} = useContext(UserContext);
   const navigate = useNavigate();
   const handleCheckout = () => {
     navigate('/My Cart');
@@ -54,7 +56,7 @@ export default function Cart(props) {
                         }}
                       >
                         <Box>
-                          <Button variant='contained'startIcon={<DeleteIcon/>} onClick={()=>props.handleRemoveCourseFromCart(course)}>Delete</Button>
+                          <Button variant='contained'startIcon={<DeleteIcon/>} onClick={()=>handleRemoveCourseFromCart(course)}>Delete</Button>
                         </Box>
                         
                         <Box>
