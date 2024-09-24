@@ -31,30 +31,18 @@ export default function Homepage() {
     */
   }, []);
 
-  const handleAddCourseToCart = (course) => {
-    setCartCourse([...cartCourse, course]);
-    setCart([...cart, course]);
-  };
-
-
-  const handleRemoveCourseFromCart = (course) => {
-    const newCartCourses = cartCourse.filter(pd => pd.id !== course.id);
-    setCartCourse(newCartCourses);
-    setCart(newCartCourses);
-  };
-
   return (
     <Box className='container'>
       <Grid container spacing={2}>
         <Grid item xs={8}>
           {
             allCourses.map((course, index) =>
-              <Course key={index} course={course} handleAddCourseToCart={handleAddCourseToCart} />
+              <Course key={index} course={course} />
             )
           }
         </Grid>
         <Grid item xs={4}>
-          <Cart cartCourses={cart} handleRemoveCourseFromCart={handleRemoveCourseFromCart} />
+          <Cart cartCourses={cart} />
         </Grid>
       </Grid>
     </Box>
