@@ -53,6 +53,7 @@ function Header() {
     setLoggedInUser(newUser);
     console.log(loggedInUser);
     navigate('/');
+    window.location.reload();
   }
 
   return (

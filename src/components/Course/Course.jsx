@@ -4,7 +4,7 @@ import './Course.css'
 import { UserContext } from '../Context/UserContext';
 
 export default function Course(props) {
-   console.log(props);
+  //  console.log(props);
   const { name, description, image_url, price } = props.course;
   const {handleAddCourseToCart} = useContext(UserContext);
   return (

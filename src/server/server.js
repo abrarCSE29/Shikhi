@@ -33,7 +33,7 @@ app.get('/courses', async (req, res) => {
     const courses = await collection.find({}).toArray(); // Fetch all courses
 
     // Log courses to the VSCode terminal
-    console.log('Courses fetched from MongoDB:', courses);
+    // console.log('Courses fetched from MongoDB:', courses);
 
     // Respond with courses in JSON format
     res.status(200).json(courses);
@@ -74,6 +74,48 @@ app.get('/users/:email', async (req, res) => {
   } catch (err) {
     console.error('Error fetching user:', err);
     res.status(500).json({ message: 'Error fetching user' });
+  }
+});
+
+// Add a route to update user's cart in MongoDB
+// Add a route to update user's cart in MongoDB
+app.post('/users/:email/cart', async (req, res) => {
+  const { email } = req.params;
+  const { cartItems } = req.body; // This will be an array of product IDs
+
+  try {
+    const db = client.db(dbName);
+    const collection = db.collection(usersCollection);
+
+    // Update the user's cart by their email
+    const result = await collection.updateOne(
+      { email: email },
+      { $set: { cart: cartItems } },
+      { upsert: true } // Creates a new document if none exists
+    );
+    
+    res.status(200).json({ message: "Cart updated successfully" });
+  } catch (err) {
+    console.error('Error updating cart:', err);
+    res.status(500).json({ message: 'Error updating cart' });
+  }
+});
+
+app.post('/courses/details', async (req, res) => {
+  const { courseIds } = req.body; // Array of course IDs
+  console.log("Hit success");
+  
+  try {
+    const db = client.db(dbName);
+    const collection = db.collection(courseCollection);
+
+    // Fetch all courses that match the course IDs
+    const courses = await collection.find({ id: { $in: courseIds } }).toArray();
+
+    res.status(200).json(courses);
+  } catch (error) {
+    console.error('Error fetching course details:', error);
+    res.status(500).json({ message: 'Error fetching course details' });
   }
 });
 
