@@ -48,7 +48,10 @@ export const UserProvider = ({ children }) => {
     }
   };
 
-  const handleAddCourseToCart = (course) => {
+  const handleAddCourseToCart =(course) => {
+    if(cart.indexOf(course)>=0){
+      return;
+    }
     const updatedCart = [...cart, course];
     setCart(updatedCart);
     saveCartToDB(updatedCart); // Save to MongoDB
@@ -56,6 +59,8 @@ export const UserProvider = ({ children }) => {
 
   const handleRemoveCourseFromCart = (course) => {
     const updatedCart = cart.filter((pd) => pd.id !== course.id);
+    console.log("uodated cart  ", updatedCart);
+    
     setCart(updatedCart);
     saveCartToDB(updatedCart); // Save to MongoDB
   };
@@ -68,11 +73,14 @@ export const UserProvider = ({ children }) => {
   // Use effect to update localStorage when loggedInUser state changes
   useEffect(() => {
     if (loggedInUser.isSignedIn) {
+      console.log("cart updated");
+      loggedInUser.cart = cart;
+      
       localStorage.setItem("loggedInUser", JSON.stringify(loggedInUser));
     } else {
       localStorage.removeItem("loggedInUser");
     }
-  }, [loggedInUser]);
+  }, [loggedInUser,cart]);
 
   return (
     <UserContext.Provider
