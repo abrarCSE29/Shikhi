@@ -6,13 +6,14 @@ export const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
   const [loggedInUser, setLoggedInUser] = useState(() => {
-    const savedUser = localStorage.getItem("loggedInUser");
-    return savedUser
-      ? JSON.parse(savedUser)
-      : { name: "", email: "", mobile: "", dob: "", profession: "", isSignedIn: false, cart: "" };
-  });
+      const savedUser = localStorage.getItem("loggedInUser");
+      return savedUser
+        ? JSON.parse(savedUser)
+        : { name: "", email: "", mobile: "", dob: "", profession: "", isSignedIn: false, cart: "" };
+    });
 
-  const [cart, setCart] = useState([]);
+
+    const [cart, setCart] = useState([]);
 
   // Function to fetch full course details based on cart's course IDs
   const fetchCartCoursesFromDB = async () => {
@@ -29,11 +30,11 @@ export const UserProvider = ({ children }) => {
   };
 
   // Call fetchCartCoursesFromDB when user is signed in and cart has course IDs
-  useEffect(() => {
-    if (loggedInUser.isSignedIn) {
-      fetchCartCoursesFromDB();
-    }
-  }, [loggedInUser.isSignedIn]);
+  // useEffect(() => {
+  //   if (loggedInUser.isSignedIn) {
+  //     fetchCartCoursesFromDB();
+  //   }
+  // }, [loggedInUser.isSignedIn]);
 
   // Add function to send cart data to MongoDB
   const saveCartToDB = async (updatedCart) => {
@@ -48,14 +49,21 @@ export const UserProvider = ({ children }) => {
     }
   };
 
-  const handleAddCourseToCart = (course) => {
+  const handleAddCourseToCart =(course) => {
+    if(cart.indexOf(course)>=0){
+      return;
+    }
     const updatedCart = [...cart, course];
     setCart(updatedCart);
+    loggedInUser.cart = updatedCart; // Update the user's cart in local storage
+    localStorage.setItem("loggedInUser", JSON.stringify(loggedInUser));
     saveCartToDB(updatedCart); // Save to MongoDB
   };
 
   const handleRemoveCourseFromCart = (course) => {
     const updatedCart = cart.filter((pd) => pd.id !== course.id);
+    loggedInUser.cart = updatedCart; // Update the user's cart in local storage
+    localStorage.setItem("loggedInUser", JSON.stringify(loggedInUser));
     setCart(updatedCart);
     saveCartToDB(updatedCart); // Save to MongoDB
   };
@@ -68,6 +76,7 @@ export const UserProvider = ({ children }) => {
   // Use effect to update localStorage when loggedInUser state changes
   useEffect(() => {
     if (loggedInUser.isSignedIn) {
+      fetchCartCoursesFromDB();
       localStorage.setItem("loggedInUser", JSON.stringify(loggedInUser));
     } else {
       localStorage.removeItem("loggedInUser");
@@ -84,6 +93,7 @@ export const UserProvider = ({ children }) => {
         handleAddCourseToCart,
         handleRemoveCourseFromCart,
         emptyCart,
+        fetchCartCoursesFromDB,
       }}
     >
       {children}
