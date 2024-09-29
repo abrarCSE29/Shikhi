@@ -6,6 +6,7 @@ export const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
   const [loggedInUser, setLoggedInUser] = useState(() => {
+
     const savedUser = localStorage.getItem("loggedInUser");
     return savedUser
       ? JSON.parse(savedUser)
@@ -33,6 +34,8 @@ export const UserProvider = ({ children }) => {
     }
   };
 
+
+
   // Add function to send cart data to MongoDB
   const saveCartToDB = async (updatedCart) => {
     if (loggedInUser.isSignedIn) {
@@ -46,6 +49,7 @@ export const UserProvider = ({ children }) => {
     }
   };
 
+
   const handleAddCourseToCart = (course) => {
     if (cart.find(item => item.id === course.id)) {
       return; // Prevent adding the same course multiple times
@@ -53,12 +57,15 @@ export const UserProvider = ({ children }) => {
     const updatedCart = [...cart, course];
     setCart(updatedCart);
     loggedInUser.cart = updatedCart.map(item => item.id); // Store only course IDs in loggedInUser
+
     localStorage.setItem("loggedInUser", JSON.stringify(loggedInUser));
     saveCartToDB(updatedCart); // Save to MongoDB
   };
 
   const handleRemoveCourseFromCart = (course) => {
     const updatedCart = cart.filter((pd) => pd.id !== course.id);
+    loggedInUser.cart = updatedCart; // Update the user's cart in local storage
+    localStorage.setItem("loggedInUser", JSON.stringify(loggedInUser));
     setCart(updatedCart);
     loggedInUser.cart = updatedCart.map(item => item.id); // Update the cart in loggedInUser
     localStorage.setItem("loggedInUser", JSON.stringify(loggedInUser));
